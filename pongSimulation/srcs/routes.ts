@@ -32,7 +32,7 @@ export default async function routes(app: FastifyInstance) {
         return;
     })
 
-    app.get("/dl", () => {
+    app.get("/dl", async () => {
             let ball = new Ball (0, 0, 0.75, 8);
             let obj = [];
 
