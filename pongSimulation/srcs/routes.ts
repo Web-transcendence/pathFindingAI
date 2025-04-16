@@ -33,24 +33,27 @@ export default async function routes(app: FastifyInstance) {
     })
 
     app.get("/dl", async () => {
-            let ball = new Ball (0, 0, 0.75, 8);
-            let obj = [];
+        let ball = new Ball (0, 0, 0.75, 8.0);
+        let obj = [];
 
-            let i = 60000;
+        let i = 10;
 
-            const intervalId = setInterval(() => {
-                if (i <= 0) {
-                    clearInterval(intervalId);
-                    return ;
-                }
-                console.log(i);
-                obj.push(ball.getData())
-                i--;
-            }, 10);
+        const intervalId = setInterval(async () => {
+            if (i <= 0) {
+                clearInterval(intervalId);
+                console.log(JSON.stringify(obj));
+                await writeFile('parsing.json', JSON.stringify(obj, null, 2), 'utf8');
+                return ;
+            }
+            console.log(i);
+            obj.push(ball.getData())
+            i--;
+        }, 1000);
 
-            await writeFile('parsing.json', JSON.stringify(obj, null, 2), 'utf8');
 
-
-            moveBall(ball);
+        moveBall(ball);
     })
+
 }
+
+

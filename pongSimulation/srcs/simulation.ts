@@ -32,29 +32,23 @@ export class Ball {
 
 
 
-
-
-
-
-function norAngle(ball: Ball) {
-    if (ball.angle < 0)
-        ball.angle += 2 * Math.PI;
-    if (ball.angle > 2 * Math.PI)
-        ball.angle -= 2 * Math.PI;
-}
-
-
 export function moveBall(ball: Ball) {
-    ball.x += Math.cos(ball.angle) * ball.speed;
-    ball.y += Math.sin(ball.angle) * ball.speed;
-    if (ball.y > 800) {
-        ball.y = 800 - (ball.y - 800);
-        ball.angle = 2 * Math.PI - ball.angle;
-    } else if (ball.y < 0) {
-        ball.y = -ball.y;
-        ball.angle = 2 * Math.PI - ball.angle;
+    ball.x += Math.cos(ball.angle * Math.PI - Math.PI / 2) * ball.speed / 1000;
+    ball.y += Math.sin(ball.angle * Math.PI) * ball.speed / 1000;
+    if (ball.y > 0.8) {
+        ball.y = 0.8 - (ball.y - 0.8);
+        ball.angle = ball.angle > 0 ? 1 - ball.angle : - 1 - ball.angle;
+    } else if (ball.y < -0.8) {
+        ball.y = -0.8 - (ball.y + 0.8);
+        ball.angle = ball.angle > 0 ? 1 - ball.angle : - 1 - ball.angle;
     }
-    norAngle(ball);
+    if (ball.x > 1) {
+        ball.x = 1 - (ball.x - 1);
+        ball.angle = - ball.angle;
+    } else if (ball.x < -1) {
+        ball.x = -1 - (ball.x + 1);
+        ball.angle = - ball.angle;
+    }
     setTimeout(() => moveBall(ball), 10);
 }
 
