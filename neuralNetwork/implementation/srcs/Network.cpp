@@ -6,12 +6,12 @@
 /*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:45:44 by thibaud           #+#    #+#             */
-/*   Updated: 2025/04/14 00:32:08 by thibaud          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:24:08 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Network.class.hpp"
-#include "json/json.hpp"
+#include "json.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -72,7 +72,7 @@ std::vector<double>	Network::feedForward(std::vector<double> const & input) {
 		auto	it_lo = layerOutput.begin();
 		for (auto it_n = (*it_l).begin(); it_n != (*it_l).end(); it_n++, it_lo++) {
 			std::vector<double>	input(layerOutput);
-			*it_lo = Math::leakyReLu(Math::dotProduct(input, *it_n));
+			*it_lo = Math::sigmoid(Math::dotProduct(input, *it_n));
 		}
 	}
 	layerOutput.resize(N_NEURON_OUTPUT);
