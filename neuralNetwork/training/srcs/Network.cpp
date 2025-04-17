@@ -6,7 +6,7 @@
 /*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:17:49 by thibaud           #+#    #+#             */
-/*   Updated: 2025/04/16 11:51:29 by thibaud          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:16:08 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	Network::updateMiniBatch(std::vector<t_tuple*>& miniBatch, double const eta
 std::vector<double>*	Network::feedForward(std::vector<double> const & input) {
 	auto	it = this->_layers.begin();
 	auto	activation = new std::vector<double>(input);
-	
+
 	for (; it != this->_layers.end(); it++) {
 		auto temp = activation;
 		activation = (*it)->feedForward(*activation);
@@ -148,6 +148,7 @@ std::array<double, 2>     Network::evaluate(std::vector<t_tuple*>& test_data) {
 		auto output = this->feedForward((*it_td)->input);
 		offsetX += std::abs(output->at(0) - (*it_td)->expectedOutput.at(0));
 		offsetY += std::abs(output->at(1) - (*it_td)->expectedOutput.at(1));
+		delete output;
 	}
 	return std::array<double, 2>{offsetX / test_data.size(),offsetY / test_data.size()};
 }
@@ -167,7 +168,7 @@ void	Network::printNetworkToJson(std::string const & outputFile) {
 			for (auto it_w = (*it_n)->_weight.begin(); it_w != (*it_n)->_weight.end(); it_w++) {
 				mySs<<*it_w;
 				if (it_w + 1 != (*it_n)->_weight.end())
-					mySs<<",";	
+					mySs<<",";
 			}
 			mySs<<"],"<<std::endl;
 			mySs<<"			\"b\":"<<(*it_n)->_bias<<std::endl;
@@ -222,12 +223,12 @@ void	Network::updateNabla_b( void ) {
 	for (auto it_l = this->_layers.begin(); it_l != this->_layers.end(); it_l++)
 		(*it_l)->updateNabla_b();
 	return ;
-}	
+}
 
 void    Network::myShuffle(std::vector<t_tuple*>& myVector) {
 	std::random_device  rd;
 	std::mt19937        g(rd());
-	
+
 	std::shuffle(myVector.begin(), myVector.end(), g);
 	return ;
 }

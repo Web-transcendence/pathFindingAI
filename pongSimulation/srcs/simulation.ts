@@ -9,8 +9,6 @@ export class Ball {
     angle: number;
     speed: number;
 
-    i: number;
-
     constructor(x: number, y: number, angle: number, speed: number) {
         this.x = x;
         this.y = y;

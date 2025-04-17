@@ -6,14 +6,14 @@
 /*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 09:15:27 by thibaud           #+#    #+#             */
-/*   Updated: 2025/04/16 10:28:41 by thibaud          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:08:16 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPEDEFINITION_HPP
 # define TYPEDEFINITION_HPP
-# define OUTPUT_SIZE 4
-# define INPUT_SIZE 4
+# define OUTPUT_SIZE 3
+# define INPUT_SIZE 3
 # define UP 0
 # define DOWN 1
 # define NUM_ACTION 2
