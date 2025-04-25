@@ -6,7 +6,7 @@
 /*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:25:52 by thibaud           #+#    #+#             */
-/*   Updated: 2025/04/25 18:36:45 by tmouche          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:50:54 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	lineDrag(std::vector<std::vector<double>> & simulation, std::array<int, 2> 
 	double const	offset = 1. / diffX;
 	int				countValue = 0;
 	double			value = 1.;
-	// std::cout << "diff X" << diffX << std::endl;
 	while (diffX > 0) {
 		simulation.at(actxy[1]).at(actxy[0]) = value;
 		if (countValue < valuePerRow) {
