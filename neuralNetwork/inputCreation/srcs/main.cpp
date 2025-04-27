@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:25:52 by thibaud           #+#    #+#             */
-/*   Updated: 2025/04/25 18:50:54 by tmouche          ###   ########.fr       */
+/*   Updated: 2025/04/27 10:00:10 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ std::vector<std::vector<std::vector<double>>*>*	parse(std::string const & inFile
 	auto data = nlohmann::json::parse(dataStr);
 	int		count = 0;
 	std::array<int, 2>	lastIdx = {W/2, H/2};
-	for (auto it = simul->begin(); it != simul->end(); it++, count += 3) {
+	for (auto it = simul->begin(); it != simul->end(); it++, count += 5) {
 		*it = new std::vector<std::vector<double> >(H, std::vector<double>(W));
 		double x = data[count]["bx"];
 		double y = data[count]["by"];
@@ -113,7 +113,7 @@ int	main( void ) {
 	int	count = 0;
 	for (auto it = test->begin(); it != test->end(); it++, count++) {
 		printVector(**it);
-		std::this_thread::sleep_for(std::chrono::milliseconds(30)); // ~30 fps
+		std::this_thread::sleep_for(std::chrono::milliseconds(50)); // ~30 fps
 		delete *it;
 	}
 	delete test;

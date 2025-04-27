@@ -40,6 +40,7 @@ var lPaddle = new Paddle(30, canvas.height / 2, 20, 200, 10, "#fcc800");
 var rPaddle = new Paddle(canvas.width - 30, canvas.height / 2, 20, 200, 10, "#fcc800");
 var input = new keyInput();
 var holder = [];
+var dataPerFile = 0;
 var count = 0;
 function gameState() {
     return { bx: ball.x, by: ball.y, ba: ball.angle, bs: ball.speed, rPx: rPaddle.x, rPy: rPaddle.y, lPx: lPaddle.x, lPy: lPaddle.y };
@@ -65,12 +66,16 @@ function resetGame() {
 function movePaddle() {
     if (input.arrowUp)
         rPaddle.y -= rPaddle.speed;
-    if (input.arrowDown)
+    else if (input.arrowDown)
         rPaddle.y += rPaddle.speed;
+    else
+        rPaddle.y += (Math.random() > 0.5 ? 1 : -1) * rPaddle.speed * 0.5;
     if (input.w)
         lPaddle.y -= lPaddle.speed;
-    if (input.s)
+    else if (input.s)
         lPaddle.y += lPaddle.speed;
+    else
+        lPaddle.y += (Math.random() > 0.5 ? 1 : -1) * lPaddle.speed * 0.5;
     if (rPaddle.y < 0.5 * rPaddle.height)
         rPaddle.y = 0.5 * rPaddle.height;
     else if (rPaddle.y > canvas.height - rPaddle.height * 0.5)
@@ -82,6 +87,26 @@ function movePaddle() {
     if (state === 2)
         setTimeout(function () { return movePaddle(); }, 10);
 }
+// function movePaddle() {
+//     if (input.arrowUp)
+//         rPaddle.y -= rPaddle.speed;
+//     if (input.arrowDown)
+//         rPaddle.y += rPaddle.speed;
+//     if (input.w)
+//         lPaddle.y -= lPaddle.speed;
+//     if (input.s)
+//         lPaddle.y += lPaddle.speed;
+//     if (rPaddle.y < 0.5 * rPaddle.height)
+//         rPaddle.y = 0.5 * rPaddle.height;
+//     else if (rPaddle.y > canvas.height - rPaddle.height * 0.5)
+//         rPaddle.y = canvas.height -   0.5 * rPaddle.height;
+//     if (lPaddle.y < 0.5 * lPaddle.height)
+//         lPaddle.y = 0.5 * lPaddle.height;
+//     else if (lPaddle.y > canvas.height - lPaddle.height * 0.5)
+//         lPaddle.y = canvas.height - 0.5 * lPaddle.height;
+//     if (state === 2)
+//         setTimeout(() => movePaddle(), 10);
+// }
 function checkCollision(oldX, oldY) {
     var sign = 1;
     var posy = 0;
@@ -183,13 +208,18 @@ function animateBall() {
     ctx.textAlign = "right";
     ctx.fillText(lPaddle.score, canvas.width * 0.5 - 40, 80);
     // Relance l'animation à chaque frame
-    console.log(count);
     count += 1;
-    holder.push(gameState());
-    if (count == 1000) {
-        socket.send(JSON.stringify({ type: "save", data: holder }));
-        holder.length = 0;
+    if (count == 5) {
         count = 0;
+        console.log(dataPerFile);
+        dataPerFile += 1;
+        holder.push(gameState());
+        if (dataPerFile == 10000) {
+            socket.send(JSON.stringify({ type: "save", data: holder }));
+            holder.length = 0;
+            dataPerFile = 0;
+            console.log("data sent");
+        }
     }
     if (state === 2)
         requestAnimationFrame(animateBall);
